@@ -1,0 +1,12 @@
+/**
+ * Custom global overrides
+ * Add project-specific CSS here (kept separate from Tailwind setup).
+ */
+
+/* Example hook for your home page widget wrappers */
+.events-strip-widget {
+  padding: 100px 0;
+  background: linear-gradient(325.86deg, hsl(337, 77%, 55%) 0%, hsl(0, 0%, 0%) 100%);
+}
+
+
