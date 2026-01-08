@@ -2,6 +2,7 @@ import React from 'react';
 import { Header, HeaderProps } from '@/widgets/Header';
 import { Footer, type FooterProps } from '@/widgets/Footer';
 import { layoutVariants } from './Layout.variants';
+import { getNavItems } from '@/lib/navigation.config';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -9,16 +10,8 @@ export interface LayoutProps {
   footerProps?: FooterProps;
   variant?: 'default' | 'contained' | 'fullWidth';
   showFooter?: boolean;
+  activePage?: string;
 }
-
-const defaultNavItems = [
-  { title: 'Home', href: '/' },
-  { title: 'What It Means Riding Like A Pro', href: '/about-us' },
-  { title: 'Events', href: '/events' },
-  { title: 'News', href: '/news' },
-  { title: 'Gallery', href: '/gallery' },
-  { title: 'Be The Next Stage', href: '/contact-us' },
-];
 
 const defaultSocialLinks = [
   { platform: 'facebook' as const, href: 'https://www.facebook.com/giroditalia' },
@@ -34,11 +27,12 @@ export const Layout: React.FC<LayoutProps> = ({
   footerProps,
   variant = 'default',
   showFooter = true,
+  activePage,
 }) => {
   const styles = layoutVariants({ variant });
 
   const mergedHeaderProps: HeaderProps = {
-    navItems: defaultNavItems,
+    navItems: getNavItems(activePage),
     socialLinks: defaultSocialLinks,
     ...headerProps,
   };

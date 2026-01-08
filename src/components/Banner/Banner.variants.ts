@@ -20,7 +20,7 @@ export const bannerVariants = tv({
     label:
       'inline-block bg-[#E61E6E] text-white px-4 py-1 text-xs tracking-[0.35em] uppercase',
     title:
-      'mt-4 text-white font-extrabold tracking-[0.12em] text-4xl md:text-6xl',
+      'mt-4 text-white font-extrabold tracking-[0.12em] text-[30px] md:text-[70px]',
   },
   variants: {
     height: {

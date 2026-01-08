@@ -29,7 +29,7 @@ const buildWafImageUrl = (item: SportzListingItem) => {
   const normalized = base.replace(/\/0\/$/, '/16-9/');
 
   const url = new URL(
-    `https://stg-rr.sportz.io/static-assets/waf-images/${normalized}${file}`
+    `https://stg-washington-freedom.sportz.io/static-assets/waf-images/${normalized}${file}`
   );
   url.searchParams.set('v', '3.27');
   url.searchParams.set('w', '600');
@@ -84,7 +84,7 @@ const GalleryPage: React.FC = () => {
       try {
         // Gallery Photos API: entities=2,4
         const res = await fetchSportzNewsListing({
-          page: 2,
+          page: 1,
           pageSize: 8,
           entities: '2,4',
           inum: 10,
@@ -148,7 +148,7 @@ const GalleryPage: React.FC = () => {
         <meta name="description" content="Browse photos and highlights from Ride Like a Pro." />
       </Head>
 
-      <Layout>
+      <Layout activePage="/gallery">
         <div className={styles.container()}>
           <Banner
             title="GALLERY"

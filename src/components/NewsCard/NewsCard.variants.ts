@@ -19,7 +19,7 @@ export const newsCardVariants = tv({
     metaRow: 'inline-flex items-center gap-2',
     metaIconInline: 'h-4 w-4',
     title:
-      'mt-2 font-extrabold tracking-tight overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]',
+      'mt-2 font-extrabold tracking-tight uppercase overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]',
   },
   variants: {
     variant: {

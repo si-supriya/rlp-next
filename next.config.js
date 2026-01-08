@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'stg-rr.sportz.io',
+        hostname: 'stg-washington-freedom.sportz.io',
         pathname: '/**',
       },
     ],

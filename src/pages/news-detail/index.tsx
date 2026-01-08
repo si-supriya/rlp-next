@@ -29,7 +29,7 @@ const NewsDetailPage: React.FC = () => {
         <meta name="description" content={mockArticle.title} />
       </Head>
 
-      <Layout>
+      <Layout activePage="/news">
         <div className={styles.page()}>
           {/* Hero / Breadcrumb */}
           <section className={styles.hero()}>

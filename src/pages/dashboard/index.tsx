@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { Layout } from '@/components/Layout';
 import { dashboardVariants } from '../../variants/dashboard.variants';
 
 const Dashboard: NextPage = () => {
@@ -10,9 +11,11 @@ const Dashboard: NextPage = () => {
         <meta name="description" content="Dashboard page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h1>Dashboard Page</h1>
-      </main>
+      <Layout>
+        <main>
+          <h1>Dashboard Page</h1>
+        </main>
+      </Layout>
     </>
   );
 };

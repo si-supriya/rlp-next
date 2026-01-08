@@ -4,7 +4,7 @@ export const newsWidgetVariants = tv({
   slots: {
     container: 'w-full mb-12',
     header: 'flex items-center justify-between mb-6',
-    title: 'text-3xl font-bold text-neutral-900',
+    title: 'text-[30px] md:text-[70px] font-bold text-neutral-900',
     subtitle: 'text-neutral-600 mt-2',
     viewAll: 'text-primary-600 hover:text-primary-700 font-semibold transition-colors flex items-center gap-2',
     content: 'grid gap-6',

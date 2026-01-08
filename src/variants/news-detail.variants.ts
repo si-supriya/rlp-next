@@ -20,7 +20,8 @@ export const newsDetailVariants = tv({
     mediaWrap: 'relative w-full aspect-[16/9] bg-neutral-100',
 
     body: 'p-6 md:p-10',
-    title: 'text-3xl md:text-5xl font-extrabold tracking-tight text-neutral-900',
+    title:
+      'text-[30px] md:text-[70px] font-extrabold tracking-tight uppercase text-neutral-900',
     metaRow: 'mt-4 flex items-center gap-3 text-xs uppercase tracking-wider text-neutral-700',
     metaIcon: 'h-4 w-4',
     metaDivider: 'h-4 w-px bg-neutral-300',

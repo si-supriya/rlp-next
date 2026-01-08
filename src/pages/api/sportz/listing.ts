@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const entities = String(req.query.entities ?? '1,4');
   const inum = String(req.query.inum ?? '10');
 
-  const url = new URL('https://stg-rr.sportz.io/apiv4/listing');
+  const url = new URL('https://stg-washington-freedom.sportz.io/apiv3/listing');
   url.searchParams.set('entities', entities);
   url.searchParams.set('otherent', '');
   url.searchParams.set('exclent', '');

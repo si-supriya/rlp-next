@@ -7,13 +7,14 @@ export const eventsStripVariants = tv({
     headerInner: 'relative w-full text-center',
     titleGhost:
       'pointer-events-none select-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 ' +
-      'whitespace-nowrap text-[72px] font-extrabold uppercase tracking-[0.12em] text-neutral-900/10 ' + 'opacity-5',
+      'whitespace-nowrap text-[30px] md:text-[60px] font-extrabold uppercase tracking-[0.12em] text-neutral-900/10 ' +
+      'opacity-5',
     subtitle:
       'relative z-10 text-xs font-medium uppercase tracking-[0.45em] text-neutral-900/80 ' +
       'sm:text-sm',
     title:
-      'relative z-10 mt-3 text-[56px] font-extrabold uppercase leading-[0.9] tracking-wide text-[#E11D48] ' +
-      'sm:text-[72px] md:text-[88px] lg:text-[104px]',
+      'relative z-10 mt-3 text-[30px] font-extrabold uppercase leading-[0.9] tracking-wide text-[#E11D48] ' +
+      'md:text-[70px]',
     swiperWrap:
       'relative ' +
       // Swiper nav buttons
@@ -25,7 +26,7 @@ export const eventsStripVariants = tv({
     // Card matching screenshot (image + black content panel)
     card:
       'group flex h-full flex-col overflow-hidden rounded-2xl bg-neutral-950 shadow-news-md ring-1 ring-[#E11D48]/40',
-    thumb: 'relative w-full h-56 sm:h-60 md:h-64 overflow-hidden bg-neutral-200',
+    thumb: 'relative w-full aspect-[21/9] overflow-hidden bg-neutral-200',
     thumbImg: 'w-full h-full object-cover',
     statusPill:
       'absolute left-5 top-5 z-10 rounded-full bg-[#E11D48] px-6 py-2 text-sm font-extrabold uppercase tracking-wider text-white',

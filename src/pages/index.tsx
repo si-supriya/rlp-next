@@ -2,18 +2,20 @@ import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import { Layout } from '@/components/Layout';
 import { EventsStripWidget, EventStripItem } from '@/widgets/EventsStripWidget';
+import { EventMapWidget } from '@/widgets/EventMapWidget';
 import { LatestNewsWidget } from '@/widgets/LatestNewsWidget';
+import { LatestGalleryWidget } from '@/widgets/LatestGalleryWidget';
+import { AboutWidget } from '@/widgets/AboutWidget';
+import { ViewMoreDivider } from '@/components';
 import { homeVariants } from '@/variants/index.variants';
 import rawEvents from '@/data/events.json';
 import { mapEventsJsonToStripItems, type EventJsonItem } from '@/lib/events.mapper';
-import type { NewsCardProps } from '@/components/NewsCard';
 
 type HomePageProps = {
   events: EventStripItem[];
-  latestNews: NewsCardProps[];
 };
 
-const Home: NextPage<HomePageProps> = ({ events, latestNews }) => {
+const Home: NextPage<HomePageProps> = ({ events }) => {
   const styles = homeVariants({ theme: 'light' });
   return (
     <>
@@ -26,23 +28,49 @@ const Home: NextPage<HomePageProps> = ({ events, latestNews }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
+      <Layout activePage="/">
         <div className={styles.container()}>
          
 
           <main className={styles.content()}>
+            <section className="mt-8">
+              <div className="w-full">
+                <div className="container mx-auto px-[15px] sm:px-0">
+                  <AboutWidget />
+                </div>
+              </div>
+            </section>
+
             <section className="mt-14 events-strip-widget">
               <div className="w-full">
-              <div className="container mx-auto">
-                <EventsStripWidget items={events} />
+                <div className="container mx-auto px-[15px] sm:px-0">
+                  <EventsStripWidget items={events} />
                 </div>
               </div>
             </section>
 
             <section className="mt-16">
               <div className="w-full">
-                <div className="container mx-auto">
-                  <LatestNewsWidget items={latestNews} />
+                <div className="container mx-auto px-[15px] sm:px-0">
+                  <LatestNewsWidget count={4} />
+                  <ViewMoreDivider href="/news" />
+                </div>
+              </div>
+            </section>
+
+            <section className="mt-16">
+              <div className="w-full">
+                <div className="container mx-auto px-[15px] sm:px-0">
+                  <LatestGalleryWidget />
+                  <ViewMoreDivider href="/gallery" />
+                </div>
+              </div>
+            </section>
+
+            <section className="mt-16 py-20 bg-gradient-to-br from-[#3a0f25] via-[#5a1633] to-[#b91c3d]">
+              <div className="w-full">
+                <div className="container mx-auto px-[15px] sm:px-0">
+                  <EventMapWidget />
                 </div>
               </div>
             </section>
@@ -60,32 +88,6 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
   return {
     props: {
       events,
-      latestNews: [
-        {
-          id: 1,
-          title: 'What a success for Giro d’Italia Ride Like a Pro brazil 2025',
-          image: '/images/common/deafult.webp',
-          category: 'News',
-          date: 'April 30, 2025',
-          href: '/news',
-        },
-        {
-          id: 2,
-          title: 'Giro d’Italia Ride Like A Pro Brasil is Almost Here!!',
-          image: '/images/common/deafult.webp',
-          category: 'News',
-          date: 'February 25, 2025',
-          href: '/news',
-        },
-        {
-          id: 3,
-          title: 'The sculptor A. Wargenbrant will be a sponsor for the upcoming Giro d’Italia Ride Like a Pro-USA event',
-          image: '/images/common/deafult.webp',
-          category: 'News',
-          date: 'December 06, 2023',
-          href: '/news',
-        },
-      ],
     },
   };
 };

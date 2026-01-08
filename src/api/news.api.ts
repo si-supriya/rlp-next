@@ -170,7 +170,7 @@ export async function loadMoreNews(
 
 /**
  * Sportz listing API (used by News Listing page)
- * API: https://stg-rr.sportz.io/apiv4/listing?entities=1,4&otherent=&exclent=&pgnum=1&inum=10&pgsize=12
+ * API: https://stg-washington-freedom.sportz.io/apiv4/listing?entities=1,4&otherent=&exclent=&pgnum=1&inum=10&pgsize=12
  */
 export interface SportzListingItem {
   asset_id: number;

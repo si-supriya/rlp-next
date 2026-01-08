@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { NewsCard, type NewsCardProps } from '@/components/NewsCard';
-import { latestNewsWidgetVariants } from './LatestNewsWidget.variants';
+import { PhotoCard, type PhotoCardProps } from '@/components/PhotoCard';
+import { latestGalleryWidgetVariants } from './LatestGalleryWidget.variants';
 import { fetchSportzNewsListing, type SportzListingItem } from '@/api/news.api';
 
 const DEFAULT_IMAGE = '/images/common/deafult.webp';
@@ -17,13 +17,11 @@ const formatDate = (iso?: string) => {
   }).format(d);
 };
 
-const buildImageUrl = (item: SportzListingItem) => {
+const buildWafImageUrl = (item: SportzListingItem) => {
   const path = item.image_data?.imagepath || item.image_path || '';
   const file = item.image_data?.image_file_name || item.image_file_name || '';
   if (!path || !file) return DEFAULT_IMAGE;
 
-  // Sportz WAF image variants follow:
-  // https://stg-washington-freedom.sportz.io/static-assets/waf-images/<path-with-16-9>/<file>?v=3.27&w=600
   const raw = path.startsWith('/') ? path.slice(1) : path;
   const base = raw.endsWith('/') ? raw : `${raw}/`;
   const normalized = base.replace(/\/0\/$/, '/16-9/');
@@ -32,7 +30,7 @@ const buildImageUrl = (item: SportzListingItem) => {
     `https://stg-washington-freedom.sportz.io/static-assets/waf-images/${normalized}${file}`
   );
   url.searchParams.set('v', '3.27');
-  url.searchParams.set('w', '600');
+  url.searchParams.set('w', '900');
   return url.toString();
 };
 
@@ -43,64 +41,58 @@ const toHref = (item: SportzListingItem) => {
     if (raw.startsWith('/')) return raw;
     return `/${raw}`;
   }
-  return `/news/${item.title_alias || item.asset_id}`;
+  return `/gallery/${item.title_alias || item.asset_id}`;
 };
 
-const mapToNewsCard = (item: SportzListingItem): NewsCardProps => ({
+const mapToPhotoCard = (item: SportzListingItem): PhotoCardProps => ({
   id: item.asset_id,
   title: item.asset_title,
-  image: buildImageUrl(item),
-  category: item.sec_ent_disp_name || 'News',
+  image: buildWafImageUrl(item),
+  category: item.sec_ent_disp_name || 'Photos',
   date: formatDate(item.published_date),
   href: toHref(item),
 });
 
-export interface LatestNewsWidgetProps {
+export interface LatestGalleryWidgetProps {
   title?: string;
   subtitle?: string;
   viewMoreHref?: string;
   /**
-   * Number of news items to render (and fetch, if `items` are not provided).
-   * Defaults to 3.
-   */
-  count?: number;
-  /**
    * Optional pre-fetched items. If omitted, this widget will fetch the latest items
-   * using the same Sportz listing API used by the News Listing page.
+   * using the same Sportz listing API used by the Gallery page.
    */
-  items?: NewsCardProps[];
+  items?: PhotoCardProps[];
   className?: string;
 }
 
-export const LatestNewsWidget: React.FC<LatestNewsWidgetProps> = ({
-  title = 'Latest News',
+export const LatestGalleryWidget: React.FC<LatestGalleryWidgetProps> = ({
+  title = 'Latest Gallery',
   subtitle = 'Giro d’Italia Ride Like A Pro',
-  viewMoreHref = '/news',
-  count = 3,
+  viewMoreHref = '/gallery',
   items: providedItems,
   className,
 }) => {
-  const styles = latestNewsWidgetVariants({ columns: count === 4 ? 'four' : 'three' });
+  const styles = latestGalleryWidgetVariants();
 
-  const [fetchedItems, setFetchedItems] = useState<NewsCardProps[]>([]);
+  const [fetchedItems, setFetchedItems] = useState<PhotoCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(!providedItems?.length);
 
   useEffect(() => {
-    // If caller provided items, don't fetch.
     if (providedItems?.length) return;
 
     let cancelled = false;
     async function loadLatest() {
       setIsLoading(true);
       try {
+        // Gallery Photos API: entities=2,4
         const res = await fetchSportzNewsListing({
           page: 1,
-          pageSize: count,
-          entities: '1,4',
+          pageSize: 4,
+          entities: '2,4',
           inum: 10,
         });
         const apiItems = res.content?.items ?? [];
-        const mapped = apiItems.map(mapToNewsCard).slice(0, count);
+        const mapped = apiItems.map(mapToPhotoCard).slice(0, 4);
         if (!cancelled) setFetchedItems(mapped);
       } catch {
         if (!cancelled) setFetchedItems([]);
@@ -113,12 +105,12 @@ export const LatestNewsWidget: React.FC<LatestNewsWidgetProps> = ({
     return () => {
       cancelled = true;
     };
-  }, [providedItems?.length, count]);
+  }, [providedItems?.length]);
 
   const items = useMemo(() => {
     const base = providedItems?.length ? providedItems : fetchedItems;
-    return base.slice(0, count);
-  }, [providedItems, fetchedItems, count]);
+    return base.slice(0, 4);
+  }, [providedItems, fetchedItems]);
 
   return (
     <section className={`${styles.section()} ${className || ''}`}>
@@ -138,30 +130,14 @@ export const LatestNewsWidget: React.FC<LatestNewsWidgetProps> = ({
       </div>
 
       <div className={styles.grid()}>
-        {items.map((item) => (
+        {items.map((item, idx) => (
           <div key={item.id} className={styles.item()}>
-            <NewsCard
-              {...item}
-              variant="article"
-              aspect="portrait"
-            />
-            <div className={styles.readMore()}>
-              <Link href={item.href} className="inline-flex items-center gap-2">
-                View More
-              </Link>
-            </div>
-            <div className={styles.itemUnderline()} />
+            <PhotoCard {...item} sequence={idx + 1} variant="overlay" aspect="portrait" />
           </div>
         ))}
 
         {isLoading && items.length === 0 ? (
-          <div
-            className={`w-full shrink-0 text-center text-sm uppercase tracking-wider text-neutral-500 ${
-              count === 4 ? 'md:col-span-2 lg:col-span-4' : 'md:col-span-3'
-            }`}
-          >
-            Loading latest articles...
-          </div>
+          <div className={styles.empty()}>Loading latest photos...</div>
         ) : null}
       </div>
     </section>

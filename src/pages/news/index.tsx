@@ -26,14 +26,14 @@ const buildImageUrl = (item: SportzListingItem) => {
   if (!path || !file) return DEFAULT_IMAGE;
 
   // Sportz WAF image variants follow:
-  // https://stg-rr.sportz.io/static-assets/waf-images/<path-with-16-9>/<file>?v=3.27&w=600
+  // https://stg-washington-freedom.sportz.io/static-assets/waf-images/<path-with-16-9>/<file>?v=3.27&w=600
   // Example: image_path "60/9b/35/0/" -> "60/9b/35/16-9/"
   const raw = path.startsWith('/') ? path.slice(1) : path;
   const base = raw.endsWith('/') ? raw : `${raw}/`;
   const normalized = base.replace(/\/0\/$/, '/16-9/');
 
   const url = new URL(
-    `https://stg-rr.sportz.io/static-assets/waf-images/${normalized}${file}`
+    `https://stg-washington-freedom.sportz.io/static-assets/waf-images/${normalized}${file}`
   );
   url.searchParams.set('v', '3.27');
   url.searchParams.set('w', '600');
@@ -168,18 +168,7 @@ const NewsListingPage: React.FC = () => {
         />
       </Head>
 
-      <Layout
-        headerProps={{
-          navItems: [
-            { title: 'Home', href: '/' },
-            { title: 'What It Means Riding Like A Pro', href: '/about-us' },
-            { title: 'Events', href: '/events' },
-            { title: 'News', href: '/news', active: true },
-            { title: 'Gallery', href: '/gallery' },
-            { title: 'Be The Next Stage', href: '/contact-us' },
-          ],
-        }}
-      >
+      <Layout activePage="/news">
         <div className={styles.container()}>
           <Banner
             title="NEWS"

@@ -10,7 +10,9 @@ export interface PhotoCardProps {
   category: string;
   date?: string;
   href: string;
-  variant?: 'default' | 'compact' | 'article';
+  /** Optional sequence number like 1,2,3 (used for large placeholder on hover in overlay variant) */
+  sequence?: number;
+  variant?: 'default' | 'compact' | 'overlay' | 'article';
   aspect?: 'landscape' | 'portrait' | 'video';
   className?: string;
 }
@@ -23,6 +25,7 @@ export const PhotoCard = React.forwardRef<HTMLElement, PhotoCardProps>(
       category,
       date,
       href,
+      sequence,
       variant = 'default',
       aspect,
       className,
@@ -30,6 +33,10 @@ export const PhotoCard = React.forwardRef<HTMLElement, PhotoCardProps>(
     ref
   ) => {
     const styles = photoCardVariants({ variant, aspect });
+    const sequenceLabel =
+      typeof sequence === 'number' && Number.isFinite(sequence)
+        ? String(sequence).padStart(2, '0')
+        : undefined;
 
     return (
       <article ref={ref} className={styles.root({ className })}>
@@ -43,6 +50,23 @@ export const PhotoCard = React.forwardRef<HTMLElement, PhotoCardProps>(
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             />
 
+            {/* Hover overlay variant */}
+            {variant === 'overlay' ? (
+              <div className={styles.overlay()} aria-hidden="true">
+                <div className={styles.overlayInner()} />
+                {sequenceLabel ? (
+                  <div className={styles.overlayIndex()}>{sequenceLabel}</div>
+                ) : null}
+                <div className={styles.overlayContent()}>
+                  <div className={styles.overlayMeta()}>
+                    {category}
+                    {date ? ` - ${date}` : ''}
+                  </div>
+                  <div className={styles.overlayTitle()}>{title}</div>
+                </div>
+              </div>
+            ) : null}
+
             {/* Photo icon badge */}
             <span className={styles.itemIconBadge()}>
               <svg
@@ -51,34 +75,49 @@ export const PhotoCard = React.forwardRef<HTMLElement, PhotoCardProps>(
                 fill="none"
                 stroke="currentColor"
               >
-                <path
+                <rect
+                  x="3"
+                  y="3"
+                  width="18"
+                  height="18"
+                  rx="2"
+                  ry="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M3 7h4l2-2h6l2 2h4v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"
+                />
+                <circle
+                  cx="8.5"
+                  cy="8.5"
+                  r="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
                 />
                 <path
+                  d="M21 15l-5-5L5 21"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
                 />
               </svg>
             </span>
           </div>
 
           {/* Content below image (no featured variant for photos) */}
-          <div className={styles.content()}>
-            <div className={styles.meta()}>
-              <span className={styles.metaRow()}>
-                <span>
-                  {category}
-                  {date ? ` - ${date}` : ''}
+          {variant !== 'overlay' ? (
+            <div className={styles.content()}>
+              <div className={styles.meta()}>
+                <span className={styles.metaRow()}>
+                  <span>
+                    {category}
+                    {date ? ` - ${date}` : ''}
+                  </span>
                 </span>
-              </span>
+              </div>
+              <h2 className={styles.title()}>{title}</h2>
             </div>
-            <h2 className={styles.title()}>{title}</h2>
-          </div>
+          ) : null}
         </Link>
       </article>
     );
