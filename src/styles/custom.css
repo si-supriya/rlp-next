@@ -1,0 +1,86 @@
+/**
+ * Custom global overrides
+ * Add project-specific CSS here (kept separate from Tailwind setup).
+ */
+
+/* Example hook for your home page widget wrappers */
+.events-strip-widget {
+  padding: 100px 0;
+  background: linear-gradient(325.86deg, hsl(337, 77%, 55%) 0%, hsl(0, 0%, 0%) 100%);
+}
+
+.waf-parallax-section {
+  height: calc(100dvh - var(--header-mobile-height));
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+}
+
+.waf-parallax-section .layout-wrapper {
+  width: fit-content;
+  max-width: none;
+  padding: 0 var(--space-10);
+  gap: var(--space-20);
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .waf-parallax-section {
+    height: calc(100dvh - 6.25rem);
+    position: relative;
+  }
+
+  .waf-parallax-section::before {
+    content: "";
+    opacity: 0.05;
+    top: 3.125rem;
+    right: 3.125rem;
+    bottom: 3.125rem;
+    left: 6.25rem;
+    position: absolute;
+    background: url("/static-assets/images/cssimages/patterns/RLP.png?v=1.59") center
+      center/contain no-repeat;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-height: 768px) {
+  .waf-parallax-section .waf-slide {
+    width: 55vw;
+  }
+
+  .waf-parallax-section .waf-slide .slide-title {
+    font-size: 2.5rem;
+  }
+
+  .waf-parallax-section .waf-slide.waf-slide-three .parallax-thumbnail {
+    width: 75%;
+  }
+
+  .waf-parallax-section .waf-slide.waf-slide-four .slide-title,
+  .waf-parallax-section .waf-slide.waf-slide-four .slide-description {
+    width: 100%;
+  }
+
+  .waf-parallax-section .waf-slide.waf-slide-four .parallax-thumbnail {
+    width: 70%;
+    transform: rotate(10deg) translate(-61%, 15%);
+  }
+
+  .waf-parallax-section .waf-slide.waf-slide-five,
+  .waf-parallax-section .waf-slide.waf-slide-six {
+    width: 45vw;
+  }
+
+  .waf-parallax-section .waf-slide.waf-slide-five .parallax-thumbnail {
+    width: 35%;
+  }
+}
+
+
+.map-svg {
+  fill: #e33578;
+}
